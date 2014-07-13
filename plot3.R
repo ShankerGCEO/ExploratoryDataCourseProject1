@@ -1,0 +1,12 @@
+setwd("V:/Data Analytics/RPractice/coursera")
+a<-read.table("household_power_consumption.txt",sep=";",heade=T,na.strings = c("?"))
+a[,"Date"]<-as.Date(a$Date,format="%d/%m/%Y")
+a1<-a[a[,"Date"]=="2007-02-01"|a[,"Date"]== "2007-02-02",]
+a1$DateTime<-strptime(do.call(paste, c(a1[c("Date", "Time")], sep = " ")),format="%Y-%m-%d %H:%M:%S",tz="")
+png("plot3.png",width=480,height=480)
+with(a1,plot(DateTime,Sub_metering_1,type="n",xlab="",ylab="Energy sub metering"))
+with(a1, points(DateTime, as.numeric(Sub_metering_1), col = "black",type="l"))
+with(a1, points(DateTime, as.numeric(Sub_metering_2), col = "red",type="l"))
+with(a1, points(DateTime, as.numeric(Sub_metering_3), col = "blue",type="l"))
+legend("topright", pch = "______", col = c("black","red","blue"), legend = c("Sub_metering_1","Sub_metering_2","Sub_metering_3"))
+dev.off()
